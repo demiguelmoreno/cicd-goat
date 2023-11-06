@@ -74,6 +74,9 @@ resource "aws_iam_policy" "replication" {
   ]
 }
 POLICY
+  tags = {
+    yor_trace = "dba85e4e-e635-4460-b024-8571fb8fc7cf"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "replication" {
@@ -86,6 +89,9 @@ resource "aws_s3_bucket" "backup" {
 
   versioning {
     enabled = true
+  }
+  tags = {
+    yor_trace = "0353ba0d-62cf-43df-973d-30d943f98a2e"
   }
 }
 
@@ -107,11 +113,14 @@ resource "aws_iam_role" "replication" {
   ]
 }
 POLICY
+  tags = {
+    yor_trace = "ed6b1572-05b5-418c-a752-ba67dbc79a08"
+  }
 }
 
 resource "aws_s3_bucket" "dodo" {
-  bucket        = var.bucket_name
-  acl           = "private"
+  bucket = var.bucket_name
+  acl    = "private"
 
   versioning {
     enabled = true
@@ -129,13 +138,16 @@ resource "aws_s3_bucket" "dodo" {
       }
     }
   }
+  tags = {
+    yor_trace = "cde7136e-8f6e-4d6c-b930-3eb6615671b8"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "backup" {
   bucket = aws_s3_bucket.backup.id
-  
-  block_public_acls   = true
-  block_public_policy = true
+
+  block_public_acls       = true
+  block_public_policy     = true
   restrict_public_buckets = true
-  ignore_public_acls=true
+  ignore_public_acls      = true
 }
